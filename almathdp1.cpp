@@ -31,7 +31,7 @@ using pii = pair<int, int>;
 #define yesno(bool) if(bool){cout<<"yes"<<endl;}else{cout<<"no"<<endl;}
 #define YesNo(bool) if(bool){cout<<"Yes"<<endl;}else{cout<<"No"<<endl;}
 
-// /* REP macro */
+/* REP macro */
 #define reps(i, a, n) for (ll i = (a); i < (ll)(n); ++i)
 #define rep(i, n) reps(i, 0, n)
 #define rrep(i, n) reps(i, 1, n + 1)
@@ -68,41 +68,21 @@ template <typename T> inline bool chmax(T& a, const T& b) {bool compare = a < b;
 // template <typename T> inline T lcm(T a, T b) {return (a * b) / gcd(a, b);}
 // clang-format on
 
-int digit_sum(int n){
-   if(n < 10)  return n;
-   return digit_sum(n/10) + n%10;
-}
 
-long long gcd(ll a, ll b) {
-    while(a >= 1 && b >= 1) {
-    if(a > b) a %= b;
-    else b %= a;
-    }
-    if(a >= 1) return a;
-    return b;
-}
-
-long long lcm(ll a, ll b) {
-    return (a / gcd(a,b)) * b;
-}
-
+//Answer
 int main() {
-    ll n; cin >> n;
-    ll cnt = 0;
-
-    //10以上(１桁のばあいもつくる)
-    reps(i,pow(10,n),pow(10,n+1)) {
-        string snum = to_string(i);
-            rep(j,snum.length()-1){
-                if(abs( (snum[j] - '0') - (snum[j + 1] - '0') ) <= 1 && snum.find("0") == std::string::npos) cnt++;
-            }
+    ll n;cin>>n;
+    ll dp[100009],h[100009];
+    reps(i,1,n+1) cin >> h[i];
+    reps(i,1,n+1) {
+        if(i == 1) dp[i] = 0;
+        if(i == 2) dp[i] = abs(h[i - 1] - h[i]);
+        if(i >= 3) {
+            ll v1 = dp[i - 1] + abs(h[i - 1] - h[i]); //dp[2] + | h[2] - h[3] | 
+            ll v2 = dp[i - 2] + abs(h[i - 2] - h[i]);
+            dp[i] = min(v1,v2);
+            // cout << dp[i] << endl;
         }
-        // if(snum.find("0") == std::string::npos && digit_sum(i) % 2 == 0)
-
-    cout << cnt % 998244353 << endl;
-    // ll j = 0;
-    // reps(i,pow(10,n),pow(10,n+1)) {
-    //     number.push_back(i[]);
-    //     j++;
-    // }
+    }
+    cout << dp[n] << endl;
 }
