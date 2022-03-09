@@ -68,20 +68,13 @@ template <typename T> inline bool chmax(T& a, const T& b) {bool compare = a < b;
 // template <typename T> inline T lcm(T a, T b) {return (a * b) / gcd(a, b);}
 // clang-format on
 
-ll nCk(ll n, ll k) {
-    ll nkaijo = 1;
-    ll kkaijo = 1;
-    ll nkkaijo = 1;
-
-    rep(i,n) nkaijo *= n - i;
-    rep(i,k) kkaijo *= k - i;
-    rep(i,n - k) nkkaijo *= n - k - i;
-
-    return (nkaijo / (kkaijo * nkkaijo));
-}
-
 
 //Answer
 int main() {
+    vi a(3);
+    rep(i,3) cin >> a[i];
+    sort(all(a));
+    if(abs(a[2] - a[1]) == abs(a[1] - a[0]) ) cout << "Yes" << endl;
+    else cout << "No" << endl; 
     
 }

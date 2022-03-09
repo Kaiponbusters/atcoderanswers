@@ -31,7 +31,7 @@ using pii = pair<int, int>;
 #define yesno(bool) if(bool){cout<<"yes"<<endl;}else{cout<<"no"<<endl;}
 #define YesNo(bool) if(bool){cout<<"Yes"<<endl;}else{cout<<"No"<<endl;}
 
-// /* REP macro */
+/* REP macro */
 #define reps(i, a, n) for (ll i = (a); i < (ll)(n); ++i)
 #define rep(i, n) reps(i, 0, n)
 #define rrep(i, n) reps(i, 1, n + 1)
@@ -68,41 +68,52 @@ template <typename T> inline bool chmax(T& a, const T& b) {bool compare = a < b;
 // template <typename T> inline T lcm(T a, T b) {return (a * b) / gcd(a, b);}
 // clang-format on
 
-int digit_sum(int n){
-   if(n < 10)  return n;
-   return digit_sum(n/10) + n%10;
-}
 
-long long gcd(ll a, ll b) {
-    while(a >= 1 && b >= 1) {
-    if(a > b) a %= b;
-    else b %= a;
-    }
-    if(a >= 1) return a;
-    return b;
-}
-
-long long lcm(ll a, ll b) {
-    return (a / gcd(a,b)) * b;
-}
-
+//Answer
 int main() {
-    ll n; cin >> n;
-    ll cnt = 0;
+    int n,m;cin>>n>>m;
+    vi d(m);
+    rep(i,m) cin >> d[i];
 
-    //10以上(１桁のばあいもつくる)
-    reps(i,pow(10,n),pow(10,n+1)) {
-        string snum = to_string(i);
-            rep(j,snum.length()-1){
-                if(abs( (snum[j] - '0') - (snum[j + 1] - '0') ) <= 1 && snum.find("0") == std::string::npos) cnt++;
+    vector<bool> dp(1009,false);
+    dp[0] = true;
+
+    reps(i,1,n+1) {
+        reps(j,0,m) {
+            if(i - d[j] >= 0 && dp[i - d[j]]) {
+                dp[i] = true;
             }
         }
-        // if(snum.find("0") == std::string::npos && digit_sum(i) % 2 == 0)
-
-    cout << cnt % 998244353 << endl;
-    // ll j = 0;
-    // reps(i,pow(10,n),pow(10,n+1)) {
-    //     number.push_back(i[]);
-    //     j++;
-    // }
+    }
+    YesNo(dp[n]);
 }
+
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// int main() {
+//    // 入力
+//    int N, M;
+//    cin >> N >> M;
+//    vector<int> D(M);
+//    for (int i = 0; i < M; ++i) cin >> D[i];
+
+//    // 動的計画法の舞台となる配列
+//    vector<bool> dp(N + 1, false);
+
+//    // マス 0 にははじめから到達している
+//    dp[0] = true;
+
+//    // 順に計算していく
+//    for (int i = 1; i <= N; ++i) {
+//        for (int j = 0; j < M; ++j) {
+//            if (i - D[j] >= 0 && dp[i - D[j]]) {
+//                dp[i] = true;
+//            }
+//        }
+//    }
+
+//    // 出力
+//    cout << (dp[N] ? "Yes" : "No") << endl;
+// }

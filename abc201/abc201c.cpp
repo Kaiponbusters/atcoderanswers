@@ -83,5 +83,28 @@ ll nCk(ll n, ll k) {
 
 //Answer
 int main() {
-    
+    string s;cin>>s;
+    int o = 0,x= 0,q=0;
+    rep(i,10) {
+        if(s[i] == 'o') o++;
+        else if(s[i] == 'x') x++;
+        else q++;
+    }
+    if(o > 4 || o + q < 1) {
+        cout << 0 << endl;
+        return 0;
+    }
+    ll ans = 0;
+    reps(sum,0,q+1) {
+        if(sum + o == 0) continue;
+        if(4 < sum + o) continue;
+
+        int cnt = o + sum;
+
+        if(cnt == 1) ans += 1;
+        else if(cnt == 2) ans += 8 + nCk(4,2);
+        else if(cnt == 3) ans += 3*4*3;
+        else if(cnt == 4) ans += 4 * 3 * 2 * 1;
+    }
+    cout << ans << endl;
 }

@@ -67,7 +67,6 @@ template <typename T> inline bool chmax(T& a, const T& b) {bool compare = a < b;
 // template <typename T> T gcd(T a, T b) {if (b == 0)return a; else return gcd(b, a % b);}
 // template <typename T> inline T lcm(T a, T b) {return (a * b) / gcd(a, b);}
 // clang-format on
-
 ll nCk(ll n, ll k) {
     ll nkaijo = 1;
     ll kkaijo = 1;
@@ -80,8 +79,38 @@ ll nCk(ll n, ll k) {
     return (nkaijo / (kkaijo * nkkaijo));
 }
 
-
 //Answer
+
+string s;
+
+ll solve() {
+    int used = 0, unused = 0, unknown = 0;
+    rep(i,s.length()) {
+        if(s[i] == 'o') used++;
+        else if(s[i] == 'x') unused++;
+        else unknown++; //?の個数
+    }
+
+    if(used > 4) return 0;
+    if(used + unknown < 1) return 0;
+
+    ll res = 0;
+    //ここでaddをoの個数とすると、oになっている個数は used + add個となる。
+    //よって、used + add個が1~4のとき、組み合わせ計算を行う。
+    reps(add, 0, unknown+1) {
+        if(add + used == 0) continue;
+        if(4 < add + used) continue;
+
+        int cnt = used + add;
+
+        if(cnt == 1) res += 1 * nCk(unknown,add);
+        else if(cnt == 2) res += (2 * 4 + nCk(4,2)) * nCk(unknown,add);
+        else if(cnt == 3) res += 3 * 4 * 3 * nCk(unknown,add);
+        else if(cnt == 4) res += 4 * 3 * 2 * nCk(unknown,add);
+    }
+    return res;
+}
 int main() {
-    
+    cin >> s;
+    cout << solve() << endl;
 }
